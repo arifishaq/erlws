@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 erlws
 =====
 
@@ -62,3 +63,9 @@ This has been tested with yaws, using the callback module in the priv directory.
 
 
 		
+=======
+erlws
+=====
+
+Websocket functions in Erlang, mostly for a client
+>>>>>>> e93a137e9bdbbd501de4d20a1af8a3bc1fd586ea

@@ -44,6 +44,9 @@ connect(URI) ->
 	    ExpectedKey = proplists:get_value("sec-websocket-accept", Headers),
 	    %% io:format("there was an Accept key~n"),
 	    
+	    "upgrade" = string:to_lower(proplists:get_value("connection", Headers)),
+	    "websocket" = string:to_lower(proplists:get_value("upgrade", Headers)),
+	    
 	    {ok, Socket};
 
 	{tcp_closed, Socket} -> 
