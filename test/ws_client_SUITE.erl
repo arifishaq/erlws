@@ -28,7 +28,8 @@ suite() ->
 %% @end
 %%--------------------------------------------------------------------
 init_per_suite(Config) ->
-    [{pause, 1} | Config]. 
+    ok = ct:require(url),
+    [{pause, ct:get_config(pause, 1)}, {url, ct:get_config(url)} | Config]. 
 %% there is some problem with the fragmented delivery tests.
 %% if you don't pause at least one millisecond between each fragment,
 %% it doesn't work
@@ -73,7 +74,7 @@ end_per_group(_GroupName, _Config) ->
 init_per_testcase(open_close, Config) ->
     Config;
 init_per_testcase(_, Config) ->
-    {ok, Websocket} = ws_client:connect("http://localhost:8081/websock.yaws"),    
+    {ok, Websocket} = ws_client:connect(?config(url, Config)),    
     [{websocket, Websocket} | Config].
 
 
@@ -137,8 +138,8 @@ all() ->
 %% Comment = term()
 %% @end
 %%--------------------------------------------------------------------
-open_close(_Config) -> 
-    {ok, Websocket} = ws_client:connect("http://localhost:8081/websock.yaws"),
+open_close(Config) -> 
+    {ok, Websocket} = ws_client:connect(?config(url, Config)),
     {normal, _Code, _OptionalReason} = ws_client:close(Websocket, ?CLOSE_NORMAL),
     ok.
 

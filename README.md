@@ -12,7 +12,7 @@ The only available protocol is http, so the URI must be
 
 ## API
 
-The module is `ws_client`. Perhaps it should have been `erlws`?
+The module is `ws_client`.
 
 	connect(URI) -> {ok, Websocket}
 	%% e.g. connect("http://localhost:8081/websock.yaws").
@@ -60,9 +60,12 @@ The test suite in the test directory uses the complete API. Briefly:
 
 The test suite in the test directory is to be run with the Common Test framework. 
 
-In this moment, the suite is hardcoded with a URI on the local machine. **PLEASE CHANGE IT TO SUIT YOUR NEEDS**. 
+One possibile scenario for running the tests, the one I'm using, is 
+- configure a yaws virtual server with the `priv` directory as the doc root
+- in the `priv` directory, run `erl -make` to compile the callback module
+- in the main directory, run `erl -make` to compile the `ws_client` module
+- modify the test configuration file `ws_client.config` to suit your needs. You must specify a URL. Pause is the amount in milliseconds the test case will wait between the sending of each fragment in the fragmented delivery tests. It defaults to 1 ms if you don't specify it in the config file
+- cd to the test directory and run `ct_run -config ws_client.config -pa ../ebin -include ../include -dir ./`. You may want to include additional parameters such as `logdir`. In Windows, I've had to add `-setcookie`!
 
-**TODO**: Put the URI in a config file or string.
-
-This has been tested with **yaws**, using the callback module, `wscb`, in the `priv` directory.
+This has been tested with **yaws**, using the callback module `priv/wscb.erl` .
 
